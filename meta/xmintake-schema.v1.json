@@ -10,6 +10,11 @@
     "^x-": {}
   },
   "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri",
+      "description": "JSON Schema meta-schema reference used by editors for validation and autocomplete."
+    },
     "schemaId": {
       "type": "string",
       "description": "Stable identifier for the schema (package-style, no version).",
