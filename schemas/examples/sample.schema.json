@@ -1,0 +1,21 @@
+{
+  "$schema": "https://xmintake.github.io/data-schemas/meta/xmintake-schema.v1.json",
+  "schemaId": "vehicle.intake",
+  "schemaVersion": "1.0",
+  "fields": {
+    "vehicle_id": {
+      "type": "string",
+      "label": "Vehicle ID"
+    },
+    "status": {
+      "type": "enum",
+      "enum": {
+        "values": ["active", "inactive"]
+      }
+    },
+    "color": {
+      "type": "string",
+      "label": "Color"
+    }
+  }
+}

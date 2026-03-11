@@ -1,0 +1,8 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["*.xmintake.schema.json", "*.schema.json"],
+      "url": "https://xmintake.github.io/data-schemas/meta/xmintake-schema.v1.json"
+    }
+  ]
+}
