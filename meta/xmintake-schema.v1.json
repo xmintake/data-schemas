@@ -1,0 +1,382 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xmintake.github.io/data-schemas/meta/xmintake-schema.v1.json",
+  "title": "XMIntake Schema v1",
+  "description": "JSON schema defining how XMIntake data schemas are structured, validated, and rendered into UI forms.",
+  "type": "object",
+  "required": ["schemaId", "schemaVersion", "fields"],
+  "additionalProperties": false,
+  "patternProperties": {
+    "^x-": {}
+  },
+  "properties": {
+    "schemaId": {
+      "type": "string",
+      "description": "Stable identifier for the schema (package-style, no version).",
+      "pattern": "^[a-z0-9._-]+$"
+    },
+    "schemaVersion": {
+      "type": "string",
+      "description": "Schema version (semantic versioning).",
+      "pattern": "^\\d+\\.\\d+(\\.\\d+)?$"
+    },
+    "description": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when this schema was generated or last updated."
+    },
+    "source": {
+      "type": "string",
+      "format": "uri",
+      "description": "Source of the schema, if any."
+    },
+    "fields": {
+      "type": "object",
+      "description": "Flat map of fields. Keys MUST match column headers.",
+      "additionalProperties": {
+        "$ref": "#/definitions/field"
+      }
+    },
+    "section": {
+      "$ref": "#/definitions/sectionConfig"
+    },
+    "tagParsing": {
+      "$ref": "#/definitions/tagParsing"
+    },
+    "sharePayloadMapping": {
+      "type": "object",
+      "description": "Maps share intent payload keys to schema field ids. E.g. sharedText -> field that receives the shared text. When shared text is a link, sharedUrl -> field that receives the raw URL string.",
+      "additionalProperties": { "type": "string" },
+      "properties": {
+        "sharedText": {
+          "type": "string",
+          "description": "Field id that receives EXTRA_TEXT from share intent."
+        },
+        "sharedUrl": {
+          "type": "string",
+          "description": "When shared text is a link (http/https), field id that receives the raw URL as a string. Only present when shared text is a link."
+        }
+      }
+    },
+    "shareTextMakeLink": {
+      "type": "boolean",
+      "default": false,
+      "description": "When true, for shared links resolve page title and store as HYPERLINK(url, title) in the sharedText field."
+    }
+  },
+  "definitions": {
+    "field": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {}
+      },
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "string",
+            "boolean",
+            "number",
+            "enum",
+            "date",
+            "attachment",
+            "location"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "description": "Optional UI label override."
+        },
+        "description": {
+          "type": "string"
+        },
+        "nullable": {
+          "type": "boolean",
+          "default": false
+        },
+        "hidden": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, field is hidden from the form."
+        },
+        "default": {
+          "description": "Default value used to prefill the UI."
+        },
+        "ui": {
+          "$ref": "#/definitions/uiHints"
+        },
+        "enum": {
+          "$ref": "#/definitions/enumConfig"
+        },
+        "attachment": {
+          "$ref": "#/definitions/attachmentConfig"
+        },
+        "location": {
+          "$ref": "#/definitions/locationConfig"
+        },
+        "uiVariant": {
+          "type": "string",
+          "enum": [
+            "single_line",
+            "multi_line",
+            "url",
+            "qr_code",
+            "barcode",
+            "nfc_tag",
+            "identifier_code",
+            "file",
+            "photo",
+            "video",
+            "document_scan"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "enum"
+              }
+            }
+          },
+          "then": {
+            "required": ["enum"]
+          }
+        },
+        {
+          "if": {
+            "properties": { "type": { "const": "string" } }
+          },
+          "then": {
+            "properties": {
+              "uiVariant": {
+                "enum": [
+                  "single_line",
+                  "multi_line",
+                  "url",
+                  "qr_code",
+                  "barcode",
+                  "nfc_tag",
+                  "identifier_code"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              { "properties": { "type": { "not": { "const": "string" } } } },
+              { "properties": { "type": { "not": { "const": "attachment" } } } }
+            ]
+          },
+          "then": {
+            "not": {
+              "required": ["uiVariant"]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "attachment"
+              }
+            }
+          },
+          "then": {
+            "required": ["attachment"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "attachment"
+              }
+            }
+          },
+          "then": {
+            "required": ["uiVariant"],
+            "properties": {
+              "uiVariant": {
+                "type": "string",
+                "enum": ["file", "photo", "video", "document_scan"]
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "uiHints": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {}
+      },
+      "properties": {
+        "control": {
+          "type": "string",
+          "enum": [
+            "text",
+            "textarea",
+            "switch",
+            "number",
+            "dropdown",
+            "checkboxes",
+            "date"
+          ]
+        },
+        "collapsible": {
+          "type": "boolean",
+          "default": false
+        },
+        "incrementStep": {
+          "type": "number",
+          "description": "Used for number fields with increment/decrement UI."
+        }
+      }
+    },
+    "enumConfig": {
+      "type": "object",
+      "required": ["values"],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {}
+      },
+      "properties": {
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "multi": {
+          "type": "boolean",
+          "default": false
+        },
+        "acceptNewValues": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "attachmentConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {}
+      },
+      "properties": {
+        "maxFiles": {
+          "type": "number"
+        },
+        "allowedMimeTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "storeInDrive": {
+          "type": "boolean",
+          "default": true
+        },
+        "outputFormat": {
+          "type": "string",
+          "enum": ["name+url"],
+          "default": "name+url"
+        },
+        "destinationFolderId": {
+          "type": "string",
+          "description": "When stored in Google Drive this is the folder ID where attachments will be stored for this destination."
+        }
+      }
+    },
+    "locationConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {}
+      },
+      "properties": {
+        "exportFormat": {
+          "type": "string",
+          "enum": ["URL", "LINK", "JSON"],
+          "default": "URL",
+          "description": "How to export the location: URL, HYPERLINK, or JSON."
+        },
+        "defaultLabelTemplate": {
+          "type": "string",
+          "description": "Optional label template using {lat}, {lng}, {source}, {accuracy}."
+        }
+      }
+    },
+    "sectionConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {}
+      },
+      "properties": {
+        "column": {
+          "type": "string",
+          "description": "Column header used for section names.",
+          "default": "Section"
+        },
+        "defaultInsertion": {
+          "type": "string",
+          "enum": ["top", "bottom", "beforeFirst"],
+          "default": "top"
+        }
+      }
+    },
+    "tagParsing": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {}
+      },
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "column": {
+          "type": "string",
+          "description": "Column that contains free-form text tags.",
+          "default": "Section"
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["pattern", "target"],
+            "additionalProperties": false,
+            "properties": {
+              "pattern": {
+                "type": "string",
+                "description": "Regex or prefix match (e.g. \\.s, \\.status)."
+              },
+              "target": {
+                "type": "string",
+                "description": "Target field name or action."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
