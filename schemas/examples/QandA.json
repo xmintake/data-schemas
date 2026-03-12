@@ -1,0 +1,45 @@
+{
+  "$schema": "https:\/\/xmintake.github.io\/data-schemas\/meta\/xmintake-schema.v1.json",
+  "schemaId": "dev.xmarin.xmintake.schemas.ns.xm_portfolio.q_a",
+  "schemaVersion": "0.1",
+  "description": "Intake Form",
+  "fields": {
+    "Section": {
+      "type": "string",
+      "label": "Section",
+      "nullable": true,
+      "uiVariant": "single_line"
+    },
+    "Question": {
+      "type": "string",
+      "label": "Question",
+      "nullable": false,
+      "uiVariant": "single_line"
+    },
+    "Question Details": {
+      "type": "string",
+      "label": "Question Details",
+      "nullable": true,
+      "uiVariant": "multi_line"
+    },
+    "Answer": {
+      "type": "string",
+      "label": "Answer",
+      "nullable": true,
+      "uiVariant": "single_line"
+    },
+    "Source Url": {
+      "type": "string",
+      "label": "Source Url",
+      "nullable": true,
+      "hidden": true,
+      "uiVariant": "url"
+    }
+  },
+  "section": { "column": "Section", "defaultInsertion": "top" },
+  "sharePayloadMapping": {
+    "sharedText": "Question",
+    "sharedUrl": "Source Url"
+  },
+  "shareTextMakeLink": true
+}
