@@ -4,20 +4,13 @@
   "title": "XMIntake Test Harness Schema v1",
   "description": "Strict JSON schema for defining test steps, actions, and assertions for XMIntake app link testing framework.",
   "type": "object",
-  "required": ["schema", "tests"],
+  "required": ["$schema", "test"],
   "additionalProperties": false,
   "properties": {
     "$schema": {
       "type": "string",
       "format": "uri",
       "description": "JSON Schema meta-schema reference used by editors for validation and autocomplete."
-    },
-    "tests": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "$ref": "#/definitions/testStep"
-      }
     },
     "metadata": {
       "type": "object",
@@ -31,6 +24,9 @@
           "type": "string",
           "minLength": 1
         },
+        "testName": {
+          "type": "string"
+        },
         "description": {
           "type": "string"
         },
@@ -39,10 +35,17 @@
           "enum": ["debug", "internal", "staging", "production"]
         }
       }
+    },
+    "test": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/step"
+      }
     }
   },
   "definitions": {
-    "testStep": {
+    "step": {
       "type": "object",
       "required": ["id", "action", "appLink"],
       "additionalProperties": false,
