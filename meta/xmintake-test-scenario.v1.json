@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.xmintake.com/meta/xmintake-test-scenario.v1.json",
+  "$id": "https://xmintake.github.io/data-schemas/meta/xmintake-test-scenario.v1.json",
   "title": "XMIntake Test Harness Schema v1",
   "description": "Strict JSON schema for defining test steps, actions, and assertions for XMIntake app link testing framework.",
   "type": "object",
