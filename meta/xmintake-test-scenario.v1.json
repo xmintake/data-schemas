@@ -9,7 +9,6 @@
   "properties": {
     "$schema": {
       "type": "string",
-      "format": "uri",
       "description": "JSON Schema meta-schema reference used by editors for validation and autocomplete."
     },
     "metadata": {
@@ -17,8 +16,7 @@
       "additionalProperties": false,
       "properties": {
         "createdAt": {
-          "type": "string",
-          "format": "date-time"
+          "type": "string"
         },
         "createdBy": {
           "type": "string",
