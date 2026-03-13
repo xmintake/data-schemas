@@ -1,5 +1,5 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://xmintake.github.io/data-schemas/meta/xmintake-schema.v1.json",
   "title": "XMIntake Schema v1",
   "description": "JSON schema defining how XMIntake data schemas are structured, validated, and rendered into UI forms.",
