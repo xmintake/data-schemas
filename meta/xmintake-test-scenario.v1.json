@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.xmintake.com/meta/xmintake-test-scenario.v1.json",
+  "title": "XMIntake Test Harness Schema v1",
+  "description": "Strict JSON schema for defining test steps, actions, and assertions for XMIntake app link testing framework.",
+  "type": "object",
+  "required": ["schema", "tests"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri",
+      "description": "JSON Schema meta-schema reference used by editors for validation and autocomplete."
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/testStep"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "environment": {
+          "type": "string",
+          "enum": ["debug", "internal", "staging", "production"]
+        }
+      }
+    }
+  },
+  "definitions": {
+    "testStep": {
+      "type": "object",
+      "required": ["id", "action", "appLink"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique identifier for the test step."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the step."
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "navigate",
+            "createNamespace",
+            "addSchema",
+            "addDestination",
+            "setFields",
+            "submitForm",
+            "shareText",
+            "changeSetting",
+            "verifyAssertion"
+          ],
+          "description": "Action type performed by this step."
+        },
+        "appLink": {
+          "type": "string",
+          "pattern": "^https://xmintake\\.xmarin\\.dev/.*$",
+          "description": "App link URL invoking the action."
+        },
+        "params": {
+          "type": "object",
+          "description": "Parameters specific to the action.",
+          "additionalProperties": true
+        },
+        "assertions": {
+          "type": "array",
+          "description": "Optional array of assertions for this step.",
+          "items": {
+            "$ref": "#/definitions/assertion"
+          }
+        }
+      }
+    },
+    "assertion": {
+      "type": "object",
+      "required": ["type", "target", "expected"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "exists",
+            "notExists",
+            "valueEquals",
+            "valueMatches",
+            "rowCountEquals"
+          ],
+          "description": "Type of assertion to verify."
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Target entity, e.g., namespace name, destination name, field id, or spreadsheet row."
+        },
+        "expected": {
+          "description": "Expected value for the assertion (type depends on assertion)."
+        }
+      }
+    }
+  }
+}

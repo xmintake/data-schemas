@@ -1,0 +1,68 @@
+{
+  "$schema": "https://schemas.xmintake.com/meta/xmintake-test-strict.v1.json",
+  "testName": "Namespace and Schema Setup Test",
+  "description": "Test scenario for creating namespace, adding schemas, and a destination.",
+  "environment": "staging",
+  "steps": [
+    {
+      "id": "step-001",
+      "description": "Create a new namespace Backlog",
+      "action": "addNamespace",
+      "appLink": "https://xmintake.xmarin.dev/ns/create?namespace=Backlog",
+      "assertions": [
+        {
+          "type": "exists",
+          "target": "namespace:Backlog",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "step-002",
+      "description": "Add schema FleetSheet to Backlog namespace",
+      "action": "addSchema",
+      "schema": "FleetSheet",
+      "appLink": "https://xmintake.xmarin.dev/ns/add-schema?namespace=Backlog&schemaUrl=https://github.com/xmintake/data-schemas/FleetSheet.json",
+      "assertions": [
+        {
+          "type": "exists",
+          "target": "schema:FleetSheet",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "step-003",
+      "description": "Add destination D_1 for Backlog namespace",
+      "action": "addDestination",
+      "schema": "FleetSheet",
+      "appLink": "https://xmintake.xmarin.dev/ns/add-destination?namespace=Backlog&destinationName=D_1&sheetId=1A2B3C&gid=0",
+      "assertions": [
+        {
+          "type": "exists",
+          "target": "destination:D_1",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "step-004",
+      "description": "Open form FleetSheet in D_1 with prefilled fields",
+      "action": "openForm",
+      "schema": "FleetSheet",
+      "appLink": "https://xmintake.xmarin.dev/f/open?destination=D_1&schema=FleetSheet&Name=Joe%20Doe&Phone=88812349876",
+      "assertions": [
+        {
+          "type": "valueEquals",
+          "target": "field:Name",
+          "expected": "Joe Doe"
+        },
+        {
+          "type": "valueEquals",
+          "target": "field:Phone",
+          "expected": "88812349876"
+        }
+      ]
+    }
+  ]
+}
