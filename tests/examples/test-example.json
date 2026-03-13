@@ -1,5 +1,5 @@
 {
-  "$schema": "https://xmintake.github.io/data-schemas/meta/xmintake-test-strict.v1.json",
+  "$schema": "https://xmintake.github.io/data-schemas/meta/xmintake-test-scenario.v1.json",
   "testName": "Namespace and Schema Setup Test",
   "description": "Test scenario for creating namespace, adding schemas, and a destination.",
   "environment": "staging",
