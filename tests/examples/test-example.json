@@ -1,5 +1,5 @@
 {
-  "$schema": "https://xmintake.github.io/data-schemas/meta/xmintake-test-scenario.v1.json",
+  "$schema": "https://xmintake.github.io/data-schemas/meta/xmintake-scenario-schema.v1.json",
   "metadata": {
     "createdAt": "2026-03-12T10:00:00Z",
     "createdBy": "QA Team",
