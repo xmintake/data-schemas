@@ -1,0 +1,167 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://xmintake.github.io/data-schemas/meta/xmintake-scenario.v2.json",
+  "title": "XMIntake Scenario Schema v2",
+  "description": "Schema for defining executable XMIntake scenarios with optional validation, variables, and controlled permissions.",
+  "type": "object",
+  "required": ["version", "scenario"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "2.0"
+    },
+    "signature": {
+      "type": "object",
+      "description": "Optional cryptographic signature to verify trusted scenarios.",
+      "required": ["type", "value"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["ed25519"]
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "permissions": {
+      "type": "array",
+      "description": "List of allowed capabilities for this scenario.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "navigate",
+          "createNamespace",
+          "addSchema",
+          "addDestination",
+          "setFields",
+          "submitForm",
+          "shareText",
+          "changeSetting",
+          "verifyAssertion"
+        ]
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "required": ["steps"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "variables": {
+          "type": "object",
+          "description": "Static variables available to all steps.",
+          "additionalProperties": {
+            "type": ["string", "number", "boolean"]
+          }
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/step"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "step": {
+      "type": "object",
+      "required": ["id", "appLink"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "appLink": {
+          "type": "string",
+          "description": "App link with optional variable interpolation."
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "condition": {
+          "type": "string",
+          "description": "Expression determining if the step should execute."
+        },
+        "onFailure": {
+          "type": "string",
+          "enum": ["stop", "continue", "retry"],
+          "default": "stop"
+        },
+        "retry": {
+          "type": "object",
+          "required": ["maxAttempts"],
+          "properties": {
+            "maxAttempts": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "delayMs": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "timeoutMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "capture": {
+          "type": "object",
+          "description": "Capture values from response into variables.",
+          "additionalProperties": {
+            "type": "string",
+            "description": "Simple JSON path (e.g. $.response.id)"
+          }
+        },
+        "assertions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/assertion"
+          }
+        }
+      }
+    },
+    "assertion": {
+      "type": "object",
+      "required": ["type", "target"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "exists",
+            "notExists",
+            "valueEquals",
+            "valueMatches",
+            "greaterThan",
+            "lessThan",
+            "contains",
+            "notContains",
+            "rowCountEquals",
+            "eventuallyEquals"
+          ]
+        },
+        "target": {
+          "type": "string"
+        },
+        "expected": {}
+      }
+    }
+  }
+}
