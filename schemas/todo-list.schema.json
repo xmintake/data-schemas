@@ -4,12 +4,7 @@
   "schemaVersion": "0.1",
   "description": "Intake Form",
   "fields": {
-    "Date": {
-      "type": "date",
-      "label": "Date",
-      "nullable": true,
-      "default": "2026-03-19 22:28:25"
-    },
+    "Date": { "type": "date", "label": "Date", "nullable": true },
     "Name": {
       "type": "string",
       "label": "Name",
@@ -26,8 +21,14 @@
       "type": "string",
       "label": "Notes",
       "nullable": true,
-      "uiVariant": "multi_line"
+      "uiVariant": "identifier_code"
     },
-    "Is Valid": { "type": "boolean", "label": "Is Valid", "nullable": true }
-  }
+    "Is Valid": {
+      "type": "boolean",
+      "label": "Is Valid",
+      "nullable": false,
+      "default": "true"
+    }
+  },
+  "sharePayloadMapping": { "sharedText": "Name" }
 }
