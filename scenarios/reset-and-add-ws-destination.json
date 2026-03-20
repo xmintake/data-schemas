@@ -1,0 +1,33 @@
+{
+  "$schema": "https://xmintake.github.io/data-schemas/meta/xmintake-scenario-schema.v2.json",
+  "version": "2.0",
+  "scenario": {
+    "name": "Sample Scenario",
+    "description": "A sample scenario for testing the XMIntake scenario engine.",
+    "steps": [
+      {
+        "id": "step1",
+        "description": "Reset the app to a clean state",
+        "appLink": "https://xmintake.xmarin.dev/s/settings/reset"
+      },
+      {
+        "id": "step2",
+        "description": "Create a new workspace",
+        "appLink": "https://xmintake.xmarin.dev/a/ws/create",
+        "params": {
+          "name": "Test WS"
+        }
+      },
+      {
+        "id": "step3",
+        "description": "Create a new destination in the workspace",
+        "appLink": "https://xmintake.xmarin.dev/a/dest/add-to-workspace",
+        "params": {
+          "workspaceName": "Test WS",
+          "sheetUrl": "https://docs.google.com/spreadsheets/d/1c-OGVMgGwRTHf1lpW0JN9eoVXQ96iA1kc1RA4KR8Sdk/edit?gid=1396719403#gid=1396719403",
+          "title": "TODO List"
+        }
+      }
+    ]
+  }
+}
