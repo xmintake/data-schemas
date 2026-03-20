@@ -3,6 +3,13 @@
   "$id": "https://xmintake.github.io/data-schemas/meta/xmintake-scenario.v2.json",
   "title": "XMIntake Scenario Schema v2",
   "description": "Schema for defining executable XMIntake scenarios with optional validation, variables, and controlled permissions.",
+  "createdAt": {
+    "type": "string"
+  },
+  "createdBy": {
+    "type": "string",
+    "minLength": 1
+  },
   "type": "object",
   "required": ["version", "scenario"],
   "additionalProperties": false,
