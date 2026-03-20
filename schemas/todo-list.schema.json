@@ -1,0 +1,33 @@
+{
+  "$schema": "https:\/\/xmintake.github.io\/data-schemas\/meta\/xmintake-schema.v1.json",
+  "schemaId": "dev.xmarin.xmintake.schemas.some_dest",
+  "schemaVersion": "0.1",
+  "description": "Intake Form",
+  "fields": {
+    "Date": {
+      "type": "date",
+      "label": "Date",
+      "nullable": true,
+      "default": "2026-03-19 22:28:25"
+    },
+    "Name": {
+      "type": "string",
+      "label": "Name",
+      "nullable": true,
+      "uiVariant": "single_line"
+    },
+    "Description": {
+      "type": "string",
+      "label": "Description",
+      "nullable": true,
+      "uiVariant": "multi_line"
+    },
+    "Notes": {
+      "type": "string",
+      "label": "Notes",
+      "nullable": true,
+      "uiVariant": "multi_line"
+    },
+    "Is Valid": { "type": "boolean", "label": "Is Valid", "nullable": true }
+  }
+}
