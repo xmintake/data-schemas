@@ -7,6 +7,10 @@
   "required": ["version", "scenario"],
   "additionalProperties": false,
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema meta-schema reference used by editors for validation and autocomplete."
+    },
     "version": {
       "type": "string",
       "const": "2.0"
