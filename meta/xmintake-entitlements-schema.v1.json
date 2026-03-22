@@ -1,0 +1,149 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://xmintake.github.io/data-schemas/meta/xmintake-entitlements-schema.v1.json",
+  "title": "Signed app entitlements configuration",
+  "description": "JSON Schema for validating signed entitlements payloads (all tiers).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "$id",
+    "version",
+    "description",
+    "data",
+    "signature"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URI of the xmintake entitlements JSON Schema (validator for signed config documents).",
+      "const": "https://xmintake.github.io/data-schemas/meta/xmintake-entitlements-schema.v1.json"
+    },
+    "$id": {
+      "type": "string",
+      "const": "app-entitlements-v1"
+    },
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "description": {
+      "type": "string",
+      "const": "Signed entitlements configuration for all app tiers"
+    },
+    "data": {
+      "$ref": "#/definitions/data"
+    },
+    "signature": {
+      "type": "string",
+      "description": "Base64-encoded signature of the canonical serialized \"data\" object."
+    }
+  },
+  "definitions": {
+    "featureValue": {
+      "description": "Entitlement for a single feature: disabled, limited (with max), or unlimited.",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["disabled"]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "max"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["limited"]
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["unlimited"]
+            }
+          }
+        }
+      ]
+    },
+    "tierFeatures": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "FIELD_QR",
+        "FIELD_NFC",
+        "FIELD_LOCATION",
+        "FILE_UPLOAD",
+        "PHOTO_UPLOAD",
+        "VIDEO_UPLOAD",
+        "SCAN_DOCUMENT",
+        "WORKSPACES_ACTIVE",
+        "NAMESPACES",
+        "DESTINATIONS",
+        "SUBMISSIONS",
+        "MANDATORY_FIELDS",
+        "FIELD_VISIBILITY",
+        "MAX_SCHEMA_FIELDS",
+        "OFFLINE_MODE",
+        "SCENARIOS",
+        "SCENARIO_RUNS",
+        "IMPORT_EXPORT",
+        "ENUM_SYNC",
+        "AUTOMATION_LINKS",
+        "AUTOMATION_RUNS",
+        "AUTO_SUBMIT"
+      ],
+      "properties": {
+        "FIELD_QR": { "$ref": "#/definitions/featureValue" },
+        "FIELD_NFC": { "$ref": "#/definitions/featureValue" },
+        "FIELD_LOCATION": { "$ref": "#/definitions/featureValue" },
+        "FILE_UPLOAD": { "$ref": "#/definitions/featureValue" },
+        "PHOTO_UPLOAD": { "$ref": "#/definitions/featureValue" },
+        "VIDEO_UPLOAD": { "$ref": "#/definitions/featureValue" },
+        "SCAN_DOCUMENT": { "$ref": "#/definitions/featureValue" },
+        "WORKSPACES_ACTIVE": { "$ref": "#/definitions/featureValue" },
+        "NAMESPACES": { "$ref": "#/definitions/featureValue" },
+        "DESTINATIONS": { "$ref": "#/definitions/featureValue" },
+        "SUBMISSIONS": { "$ref": "#/definitions/featureValue" },
+        "MANDATORY_FIELDS": { "$ref": "#/definitions/featureValue" },
+        "FIELD_VISIBILITY": { "$ref": "#/definitions/featureValue" },
+        "MAX_SCHEMA_FIELDS": { "$ref": "#/definitions/featureValue" },
+        "OFFLINE_MODE": { "$ref": "#/definitions/featureValue" },
+        "SCENARIOS": { "$ref": "#/definitions/featureValue" },
+        "SCENARIO_RUNS": { "$ref": "#/definitions/featureValue" },
+        "IMPORT_EXPORT": { "$ref": "#/definitions/featureValue" },
+        "ENUM_SYNC": { "$ref": "#/definitions/featureValue" },
+        "AUTOMATION_LINKS": { "$ref": "#/definitions/featureValue" },
+        "AUTOMATION_RUNS": { "$ref": "#/definitions/featureValue" },
+        "AUTO_SUBMIT": { "$ref": "#/definitions/featureValue" }
+      }
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["BASIC", "STANDARD", "PRO", "ENTERPRISE"],
+      "properties": {
+        "BASIC": { "$ref": "#/definitions/tierFeatures" },
+        "STANDARD": { "$ref": "#/definitions/tierFeatures" },
+        "PRO": { "$ref": "#/definitions/tierFeatures" },
+        "ENTERPRISE": { "$ref": "#/definitions/tierFeatures" }
+      }
+    }
+  }
+}
