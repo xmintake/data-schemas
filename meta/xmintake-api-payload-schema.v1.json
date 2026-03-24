@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://xmintake.github.io/data-schemas/meta/xmintake-api-payload-schema.v1.json",
+  "title": "XMIntake API Submission Payload",
+  "description": "Payload sent from XMIntake app to custom API destinations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "upload_triggered_at",
+    "data"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL of the data schema used for validation (equals the $id of the schema)."
+    },
+    "upload_triggered_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp when the user triggered the upload (ISO 8601)."
+    },
+    "data": {
+      "type": "object",
+      "description": "Flat key-value map of field IDs to values.",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ],
+        "description": "Field value. Dates are represented as strings."
+      }
+    },
+    "attachments": {
+      "type": "array",
+      "description": "List of file attachments associated with fields.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "field_name",
+          "mime_type"
+        ],
+        "properties": {
+          "field_name": {
+            "type": "string",
+            "description": "Field ID this attachment belongs to."
+          },
+          "mime_type": {
+            "type": "string",
+            "description": "MIME type of the file (e.g. image/jpeg, application/pdf)."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to access the file (e.g. Google Drive or other storage)."
+          },
+          "file_content": {
+            "type": "string",
+            "description": "Base64-encoded file content."
+          }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "url"
+            ]
+          },
+          {
+            "required": [
+              "file_content"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
