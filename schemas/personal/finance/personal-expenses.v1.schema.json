@@ -1,0 +1,57 @@
+{
+  "$schema": "https://xmintake.github.io/data-schemas/meta/xmintake-schema.v1.json",
+  "schemaId": "dev.xmarin.xmintake.schemas.personal.finance.personal-expenses",
+  "schemaVersion": "0.6",
+  "description": "Track daily expenses, categories, and payment methods.",
+  "createdAt": "2026-05-05T00:00:00Z",
+  "fields": {
+    "Date": {
+      "type": "date",
+      "ui": { "control": "date" }
+    },
+    "Amount": {
+      "type": "number",
+      "ui": { "control": "number", "incrementStep": 0.01 }
+    },
+    "Category": {
+      "type": "enum",
+      "enum": {
+        "values": [
+          "Food",
+          "Transport",
+          "Shopping",
+          "Bills",
+          "Entertainment",
+          "Health",
+          "Other"
+        ],
+        "acceptNewValues": true
+      },
+      "ui": { "control": "dropdown" }
+    },
+    "Payment Method": {
+      "type": "enum",
+      "enum": {
+        "values": ["Cash", "Credit Card", "Debit Card", "Online", "Other"]
+      },
+      "ui": { "control": "dropdown" }
+    },
+    "Merchant": {
+      "type": "string",
+      "ui": { "control": "text" },
+      "uiVariant": "single_line"
+    },
+    "Notes": {
+      "type": "string",
+      "nullable": true,
+      "ui": { "control": "textarea" },
+      "uiVariant": "multi_line"
+    },
+    "Scanned Receipt": {
+      "type": "attachment",
+      "label": "Scanned Receipt",
+      "attachment": {},
+      "uiVariant": "document_scan"
+    }
+  }
+}
