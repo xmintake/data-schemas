@@ -25,6 +25,9 @@
       "description": "Schema version (semantic versioning).",
       "pattern": "^\\d+\\.\\d+(\\.\\d+)?$"
     },
+    "title": {
+      "type": "string"
+    },
     "description": {
       "type": "string"
     },
