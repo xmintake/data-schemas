@@ -2,6 +2,7 @@
   "$schema": "https://xmintake.github.io/data-schemas/meta/xmintake-schema.v1.json",
   "schemaId": "dev.xmarin.xmintake.schemas.personal.reading.books",
   "schemaVersion": "1.0.0",
+  "title": "Books Reading Catalog",
   "description": "Track books read, progress, and ratings.",
   "createdAt": "2026-05-05T00:00:00Z",
   "fields": {

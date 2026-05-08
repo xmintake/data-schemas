@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://xmintake.github.io/data-schemas/meta/xmintake-schema.v1.json",
   "title": "XMIntake Schema v1",
   "description": "JSON schema defining how XMIntake data schemas are structured, validated, and rendered into UI forms.",
@@ -309,6 +309,11 @@
         "destinationFolderId": {
           "type": "string",
           "description": "When stored in Google Drive this is the folder ID where attachments will be stored for this destination."
+        },
+        "multi": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, the field accepts multiple files in one column (list of attachments)."
         }
       }
     },
