@@ -2,6 +2,7 @@
   "$schema": "https:\/\/xmintake.github.io\/data-schemas\/meta\/xmintake-schema.v1.json",
   "schemaId": "dev.xmarin.xmintake.schemas.some_dest",
   "schemaVersion": "0.1",
+  "title": "My To Do List",
   "description": "Intake Form",
   "fields": {
     "Date": { "type": "date", "label": "Date", "nullable": true },
