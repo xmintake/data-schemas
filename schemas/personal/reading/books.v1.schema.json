@@ -1,0 +1,87 @@
+{
+  "$schema": "https://xmintake.github.io/data-schemas/meta/xmintake-schema.v1.json",
+  "schemaId": "dev.xmarin.xmintake.schemas.personal.reading.books",
+  "schemaVersion": "1.0.0",
+  "description": "Track books read, progress, and ratings.",
+  "createdAt": "2026-05-05T00:00:00Z",
+  "fields": {
+    "Title": {
+      "type": "string",
+      "ui": { "control": "text" },
+      "uiVariant": "single_line"
+    },
+    "UPC Code": {
+      "type": "string",
+      "ui": { "control": "text" },
+      "uiVariant": "barcode"
+    },
+    "Identifier Type": {
+      "type": "string",
+      "label": "Identifier Type",
+      "nullable": true,
+      "uiVariant": "identifier_code"
+    },
+    "Author": {
+      "type": "string",
+      "ui": { "control": "text" },
+      "uiVariant": "single_line"
+    },
+    "Status": {
+      "type": "enum",
+      "enum": {
+        "values": ["Want to Read", "Reading", "Completed", "Paused"]
+      },
+      "ui": { "control": "dropdown" }
+    },
+    "Start Date": {
+      "type": "date",
+      "nullable": true
+    },
+    "Finish Date": {
+      "type": "date",
+      "nullable": true
+    },
+    "Rating": {
+      "type": "number",
+      "nullable": true,
+      "ui": { "control": "number", "incrementStep": 0.5 }
+    },
+    "Genre": {
+      "type": "enum",
+      "enum": {
+        "values": [
+          "Fiction",
+          "Non-fiction",
+          "Self-help",
+          "Biography",
+          "Fantasy",
+          "Sci-Fi",
+          "Other"
+        ],
+        "acceptNewValues": true
+      },
+      "ui": { "control": "dropdown" }
+    },
+    "Notes": {
+      "type": "string",
+      "nullable": true,
+      "ui": { "control": "textarea" },
+      "uiVariant": "multi_line"
+    },
+    "Cover": {
+      "type": "attachment",
+      "uiVariant": "photo",
+      "attachment": {
+        "maxFiles": 1
+      },
+      "nullable": true
+    }
+  },
+  "section": {
+    "column": "Status"
+  },
+  "tagParsing": {
+    "enabled": true,
+    "column": "Notes"
+  }
+}
