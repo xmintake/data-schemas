@@ -9,7 +9,8 @@
     "Title": {
       "type": "string",
       "ui": { "control": "text" },
-      "uiVariant": "single_line"
+      "uiVariant": "single_line",
+      "nullable": false
     },
     "UPC Code": {
       "type": "string",

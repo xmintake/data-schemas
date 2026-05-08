@@ -12,7 +12,8 @@
     },
     "Amount": {
       "type": "number",
-      "ui": { "control": "number", "incrementStep": 0.01 }
+      "ui": { "control": "number", "incrementStep": 0.01 },
+      "nullable": false
     },
     "Category": {
       "type": "enum",
@@ -28,14 +29,16 @@
         ],
         "acceptNewValues": true
       },
-      "ui": { "control": "dropdown" }
+      "ui": { "control": "dropdown" },
+      "nullable": false
     },
     "Payment Method": {
       "type": "enum",
       "enum": {
         "values": ["Cash", "Credit Card", "Debit Card", "Online", "Other"]
       },
-      "ui": { "control": "dropdown" }
+      "ui": { "control": "dropdown" },
+      "nullable": false
     },
     "Merchant": {
       "type": "string",
