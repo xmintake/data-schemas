@@ -78,9 +78,6 @@
       "nullable": true
     }
   },
-  "section": {
-    "column": "Status"
-  },
   "tagParsing": {
     "enabled": true,
     "column": "Notes"
