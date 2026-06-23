@@ -1,8 +1,12 @@
 {
   "json.schemas": [
     {
-      "fileMatch": ["*.xmintake.schema.json", "*.schema.json"],
+      "fileMatch": ["*.xmintake.schema.json", "schemas/**/*.schema.json"],
       "url": "https://xmintake.github.io/data-schemas/meta/xmintake-schema.v1.json"
+    },
+    {
+      "fileMatch": ["**/*.destination.json"],
+      "url": "https://xmintake.github.io/data-schemas/spec/registry/registry-destination.schema.json"
     }
   ]
 }

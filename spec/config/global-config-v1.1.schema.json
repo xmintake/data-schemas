@@ -1,0 +1,298 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xmintake.github.io/data-schemas/spec/config/global-config-v1.1.schema.json",
+  "title": "XMIntake Global Configuration",
+  "type": "object",
+  "additionalProperties": false,
+
+  "required": ["version", "namespaces", "workspaces"],
+
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+
+    "namespaces": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/namespace"
+      }
+    },
+
+    "workspaces": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/workspace"
+      }
+    }
+  },
+
+  "$defs": {
+    "color": {
+      "type": "string",
+      "pattern": "^#([0-9a-fA-F]{6})$"
+    },
+
+    "spreadsheetId": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9-_]{20,}$"
+    },
+
+    "gid": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+
+    "schemaHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{6,}$"
+    },
+
+    "namespace": {
+      "type": "object",
+      "additionalProperties": false,
+
+      "required": ["schemas", "destinations"],
+
+      "properties": {
+        "color": {
+          "$ref": "#/$defs/color"
+        },
+
+        "schemas": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/namespaceSchema"
+          }
+        },
+
+        "destinations": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/namespaceDestination"
+          }
+        }
+      }
+    },
+
+    "namespaceSchema": {
+      "type": "object",
+      "additionalProperties": false,
+
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/schemaSource"
+        },
+
+        "local": {
+          "type": "boolean",
+          "const": true
+        },
+
+        "override": {
+          "type": "boolean"
+        }
+      },
+
+      "oneOf": [
+        {
+          "required": ["source"]
+        },
+        {
+          "required": ["local"]
+        }
+      ]
+    },
+
+    "schemaSource": {
+      "type": "object",
+      "additionalProperties": false,
+
+      "required": ["schemaUrl"],
+
+      "properties": {
+        "schemaUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+
+        "schemaHash": {
+          "$ref": "#/$defs/schemaHash"
+        }
+      }
+    },
+
+    "namespaceDestination": {
+      "type": "object",
+      "additionalProperties": false,
+
+      "required": ["spreadsheetId"],
+
+      "properties": {
+        "spreadsheetId": {
+          "$ref": "#/$defs/spreadsheetId"
+        },
+
+        "color": {
+          "$ref": "#/$defs/color"
+        },
+
+        "title": {
+          "type": "string",
+          "description": "Display name for the project/sheet in this namespace."
+        },
+
+        "tags": {
+          "type": "array",
+          "description": "Normalized in app: Unicode letters, digits, emoji, hyphens; max 15 UTF-16 code units.",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 15
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+
+    "workspace": {
+      "type": "object",
+      "additionalProperties": false,
+
+      "required": ["destinations"],
+
+      "properties": {
+        "color": {
+          "$ref": "#/$defs/color"
+        },
+
+        "destinations": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/workspaceDestination"
+          }
+        }
+      }
+    },
+
+    "workspaceDestination": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Workspace destination. Manual sheet destinations require spreadsheetId and gid. API destinations use kind api. Registry-installed destinations include a registry block with the verified artifact.",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["sheet", "api"],
+          "default": "sheet",
+          "description": "Destination routing kind. sheet for Google Sheets; api for HTTPS JSON POST (CUSTOM_API from registry)."
+        },
+        "spreadsheetId": {
+          "$ref": "#/$defs/spreadsheetId"
+        },
+        "gid": {
+          "$ref": "#/$defs/gid"
+        },
+        "apiSlug": {
+          "type": "string",
+          "pattern": "^[a-z0-9](?:[a-z0-9-]{3,18}[a-z0-9])?$",
+          "description": "Stable slug for API destinations (5–20 chars, lowercase letters and hyphens). Generated at registry install from destination id when absent."
+        },
+        "endpointUrl": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://",
+          "description": "HTTPS POST endpoint for api kind destinations."
+        },
+        "schemaUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Intake schema URL for api kind destinations."
+        },
+        "apiAuth": {
+          "type": "string",
+          "enum": ["API_KEY", "GOOGLE_ID_TOKEN", "NONE"],
+          "description": "Authentication method for api kind registry destinations. Copied from the verified artifact at install."
+        },
+        "headers": {
+          "type": "object",
+          "description": "Optional extra HTTP headers for api kind destinations.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "source": {
+          "type": "string",
+          "format": "uri",
+          "description": "Canonical registry URL for registry-installed destinations. Used for refresh."
+        },
+        "description": {
+          "type": "string",
+          "description": "Destination description copied from the registry artifact at install."
+        },
+        "color": {
+          "$ref": "#/$defs/color",
+          "description": "Display accent color. User-editable for registry destinations (local override of publisher default)."
+        },
+        "title": {
+          "type": "string",
+          "description": "Display title. Immutable for registry destinations except via refresh."
+        },
+        "tags": {
+          "type": "array",
+          "description": "User-editable tags. Normalized in app: Unicode letters, digits, emoji, hyphens; max 15 UTF-16 code units.",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 15
+          },
+          "uniqueItems": true
+        },
+        "registry": {
+          "$ref": "#/$defs/registryInstallation",
+          "description": "Present for registry-installed destinations. Contains the verified artifact used for upload-time signature checks."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "api" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "required": ["apiSlug", "endpointUrl", "schemaUrl"]
+          },
+          "else": {
+            "required": ["spreadsheetId", "gid"]
+          }
+        },
+        {
+          "if": {
+            "required": ["registry"]
+          },
+          "then": {
+            "required": ["source", "registry"]
+          }
+        }
+      ]
+    },
+
+    "registryInstallation": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Verified registry destination snapshot persisted at install or refresh.",
+      "required": ["artifact", "verifiedAt"],
+      "properties": {
+        "artifact": {
+          "$ref": "../registry/registry-destination.schema.json",
+          "description": "Exact verified registry destination JSON. Used for offline signature verification on upload and import."
+        },
+        "verifiedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the artifact signature was last successfully verified."
+        }
+      }
+    }
+  }
+}
