@@ -1,0 +1,30 @@
+{
+  "$schema": "https:\/\/xmintake.github.io\/data-schemas\/meta\/xmintake-schema.v1.json",
+  "schemaId": "dev.xmarin.xmintake.schemas.xmintake_feedback",
+  "schemaVersion": "0.1",
+  "description": "Intake Form",
+  "fields": {
+    "Title": {
+      "type": "string",
+      "label": "Title",
+      "nullable": false,
+      "uiVariant": "single_line"
+    },
+    "Details": {
+      "type": "string",
+      "label": "Details",
+      "nullable": true,
+      "uiVariant": "multi_line"
+    },
+    "Photo": {
+      "type": "attachment",
+      "label": "Photo",
+      "nullable": true,
+      "attachment": {},
+      "uiVariant": "photo"
+    }
+  },
+  "sharePayloadMapping": {
+    "sharedText": "Title"
+  }
+}
