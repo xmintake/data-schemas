@@ -15,7 +15,7 @@
       "label": "Notes"
     },
     "Checked": {
-      "type": "boolean",
+      "type": "boolean"
     }
   }
 }
