@@ -1,0 +1,15 @@
+{
+  "$schema": "https://xmintake.github.io/data-schemas/meta/xmintake-schema.v1.json",
+  "schemaId": "xmintake.router-demo",
+  "schemaVersion": "1.0",
+  "fields": {
+    "title": {
+      "type": "string",
+      "label": "Title"
+    },
+    "notes": {
+      "type": "string",
+      "label": "Notes"
+    }
+  }
+}
