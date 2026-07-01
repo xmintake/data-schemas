@@ -13,6 +13,9 @@
     "Notes": {
       "type": "string",
       "label": "Notes"
+    },
+    "Checked": {
+      "type": "boolean",
     }
   }
 }
