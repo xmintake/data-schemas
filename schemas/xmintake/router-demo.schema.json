@@ -3,11 +3,14 @@
   "schemaId": "xmintake.router-demo",
   "schemaVersion": "1.0",
   "fields": {
-    "title": {
+    "Date": {
+      "type":"date"
+    },
+    "Title": {
       "type": "string",
       "label": "Title"
     },
-    "notes": {
+    "Notes": {
       "type": "string",
       "label": "Notes"
     }
