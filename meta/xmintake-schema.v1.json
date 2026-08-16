@@ -142,6 +142,40 @@
             "video",
             "document_scan"
           ]
+        },
+        "actions": {
+          "type": "array",
+          "description": "Schema-declared Field Actions (HTTPS enrichment).",
+          "items": {
+            "type": "object",
+            "required": ["actionId", "name", "endpointUrl", "requestFields", "responseMapping"],
+            "additionalProperties": true,
+            "properties": {
+              "actionId": { "type": "string", "minLength": 1 },
+              "name": { "type": "string", "minLength": 1 },
+              "description": { "type": "string" },
+              "endpointUrl": { "type": "string", "pattern": "^https://" },
+              "apiAuth": { "type": "string", "enum": ["NONE", "API_KEY", "GOOGLE_ID_TOKEN"] },
+              "allowedTriggers": {
+                "type": "array",
+                "items": { "type": "string", "enum": ["manual", "on_scan"] }
+              },
+              "requestFields": {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "string", "minLength": 1 }
+              },
+              "responseMapping": {
+                "type": "object",
+                "minProperties": 1,
+                "additionalProperties": { "type": "string", "minLength": 1 }
+              },
+              "fillPolicy": {
+                "type": "string",
+                "enum": ["fill_empty", "overwrite", "confirm"]
+              }
+            }
+          }
         }
       },
       "allOf": [
