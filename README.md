@@ -1,20 +1,14 @@
-# data-schemas
+# data-schemas (retired)
 
-Published at **https://xmintake.github.io/data-schemas/** (GitHub Pages).
+This repository no longer hosts schemas. Intake schemas, destinations, and scenarios are published, signed, on
+**XMRegistry**: <https://registry.xmarin.dev> (repository [`xmintake/registry`](https://github.com/xmintake/registry)).
+XMIntake only loads schemas published there; schema URLs on this host are refused.
 
-All fetchable schema URLs use this host. Do not use `xmintake.app` until that domain serves content.
+What remains is kept only because its URLs are used as identifiers:
 
-## Layout
-
-| Path | URL |
+| Path | Why it stays |
 |---|---|
-| `meta/` | Meta-schemas (intake form, API payload, scenarios, entitlements) |
-| `schemas/` | Intake form schemas referenced by `schemaUrl` on destinations |
-| `spec/registry/` | [registry-destination.schema.json](spec/registry/registry-destination.schema.json) — XMRegistry `.destination.json` |
-| `spec/config/` | [global-config-v1.1.schema.json](spec/config/global-config-v1.1.schema.json) — XMIntake `global-config.json` |
+| `meta/` | `$id` / `$schema` identifiers used by XMIntake schemas, scenarios, entitlements, and the API payload sent to HTTP API destinations (`xmintake-api-payload-schema.v1.json`) |
+| `spec/` | Legacy identifiers for the registry destination spec and `global-config.json` spec. The current destination spec is at `https://xmintake.github.io/registry/spec/registry/registry-destination.schema.json` |
 
-Registry **destination files** (signed artifacts) live in the [registry](https://github.com/xmintake/registry) repo under `destinations/`; they reference schemas here via `schemaUrl` and `$schema`.
-
-## Scenarios
-
-Scenarios let you script, automate, and validate real-world XMIntake workflows using simple, portable JSON.
+Don't add new files here. These identifiers move to XMRegistry with the next major version of each format.
